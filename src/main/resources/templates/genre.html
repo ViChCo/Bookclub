@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Filtrera efter genre</title>
+</head>
+<body>
+<h1>Filtrera böcker efter genre</h1>
+
+<form th:action="@{/genre}" method="get">
+    <label for="type">Välj genre:</label>
+    <select name="type" id="type">
+        <option value="">Alla</option>
+        <option th:each="g : ${genres}"
+                th:value="${g}"
+                th:text="${g}"
+                th:selected="${g == selectedGenre}"></option>
+    </select>
+    <button type="submit">Visa</button>
+</form>
+
+<p th:if="${#lists.isEmpty(books)}">
+    Inga böcker hittades för genren "<span th:text="${selectedGenre}"></span>".
+</p>
+
+<ul th:unless="${#lists.isEmpty(books)}">
+    <li th:each="book : ${books}">
+        <strong th:text="${book.title}"></strong> av
+        <span th:text="${book.author}"></span>
+        (<span th:text="${book.genre}"></span>)
+    </li>
+</ul>
+
+<p><a th:href="@{/home}">Tillbaka till start</a></p>
+</body>
+</html>
